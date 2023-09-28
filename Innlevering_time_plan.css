@@ -1,0 +1,100 @@
+/* Her importerer fonten jeg brukte*/
+@font-face {
+    font-family: boom;
+    src: url(Chalktastic-r78L.ttf);
+
+}
+
+/* Her gir jeg ulike "properties"*/
+body {
+    padding-left: 15px;
+    padding-right: 20px;
+    background-image: url(black-board-chalk-traces-school.jpg);
+    background-size: 100%;
+    font-family: boom;
+}
+
+/* Får bildet til å bli i høyre hjørnet*/
+img {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+}
+
+/* Her lager jeg hvordan tabellen skal se ut*/
+table {
+    width: 100%;
+    color: #C0C0C0;
+}
+
+caption {
+    text-align: left;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Her gir jeg farger ogsv */
+
+.lunch {
+    text-align: center;
+    color: #ff5555;
+}
+
+.time {
+    text-align: right;
+    font-weight: bold;
+}
+
+.kjemi {
+    color: #FFD700;
+}
+
+.it {
+    color: #00BFFF;
+}
+
+.no-t {
+    color: #C0C0C0;
+}
+
+.fysikk {
+    color: #32CD32;
+}
+
+.krø {
+    color: #FFA07A;
+}
+
+.norsk {
+    color: #9370DB;
+}
+
+.matte {
+    color: #FF69B4;
+}
+
+.k-time {
+    color: #FF8C00;
+}
+
+.historie {
+    color: #87a4f8;
+}
+
+
+
+/* Her lager jeg funkjonen som gjør at vi kan se Navn og Klasse rom */
+.text-hidden {
+    display: none;
+}
+
+td:hover .text-hidden {
+    display: inline;
+}
