@@ -12,8 +12,8 @@ a{
     transition-duration: 0.8s;
 }
 
-h1:active{
-    transform: rotate(360deg);
+h1{
+    letter-spacing:0px;
 }
 
 a:active{
