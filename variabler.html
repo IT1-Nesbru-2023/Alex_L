@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 80vh;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+ 
+    50% {
+        background-position: 100% 50%;
+    }
+ 
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #0074d9;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> Passord svar tester </h1>
+    Skriv inn her: <input type="text" id="ye" value=""><br> 
+    <button onclick="myFunction()">Test</button>
+    <p id="boks"></p>
+    
+    <div class="d-flex flex-column justify-content-center w-100 h-100"></div>
+
+    <script>
+        var pass = "hemmelig"
+        
+        
+        function myFunction(){
+
+        var userpass=document.getElementById("ye").value;
+
+        if (pass==userpass) 
+        document.getElementById("boks").innerHTML="passordet er riktig";
+
+        else if (userpass== "?lengde")
+        document.getElementById("boks").innerHTML=pass.length;
+        
+        else if (userpass== "?1")
+        document.getElementById("boks").innerHTML=pass[0]
+
+        else if(userpass== "?2")
+        document.getElementById("boks").innerHTML=pass[1]
+        
+        else if (userpass == "?store")
+        document.getElementById("boks").innerHTML=pass.toUpperCase()
+
+        else if (userpass == "?små")
+        document.getElementById("boks").innerHTML=pass.toLowerCase()
+
+        else document.getElementById("boks").innerHTML="feil";
+    }
+    </script>
+</body>
+</html>
