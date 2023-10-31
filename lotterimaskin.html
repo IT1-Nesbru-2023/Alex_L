@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS:GO Case Simulator</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #userinput {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        p {
+            font-size: 18px;
+        }
+        
+        html {
+  height:100%;
+}
+
+body {
+  margin:0;
+}
+
+.bg {
+  animation:slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+  bottom:0;
+  left:-50%;
+  opacity:.5;
+  position:fixed;
+  right:-50%;
+  top:0;
+  z-index:-1;
+}
+
+.bg2 {
+  animation-direction:alternate-reverse;
+  animation-duration:4s;
+}
+
+.bg3 {
+  animation-duration:5s;
+}
+
+.content {
+  background-color:rgba(255,255,255,.8);
+  border-radius:.25em;
+  box-shadow:0 0 .25em rgba(0,0,0,.25);
+  box-sizing:border-box;
+  left:50%;
+  padding:10vmin;
+  position:fixed;
+  text-align:center;
+  top:50%;
+  transform:translate(-50%, -50%);
+}
+
+h1 {
+  font-family:monospace;
+}
+
+@keyframes slide {
+  0% {
+    transform:translateX(-25%);
+  }
+  100% {
+    transform:translateX(25%);
+  }
+}
+
+    </style>
+</head>
+<body> 
+
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    <div class="content">
+        <h1>CS 2 Case Simulator</h1>
+        Number of cases <input id="userinput" type="number" placeholder="">
+        <button onclick="myFunction()">Open</button>
+        <p id="boks"></p>
+    
+
+    </div>
+
+<script>
+    function myFunction(){
+        let antallSpill = 0;
+        let user_num = 0;
+        let gold = 0;
+        let blue = 0;
+        let pink = 0;
+        let purple = 0;
+        let red = 0;
+
+        user_num = Number(document.getElementById("userinput").value);
+
+        while (antallSpill < user_num){
+            if (Math.floor(Math.random() * 384) === 1){
+                gold++;
+            }  
+            else if (Math.floor(Math.random() * 156) === 1){
+                red++;
+            }  
+            else if (Math.floor(Math.random() * 31) === 1){
+                pink++;
+            }  
+            else if (Math.floor(Math.random() * 6) === 1){
+                purple++;
+            }  
+            else {
+                blue++;
+            }
+            antallSpill++;
+        }
+
+        document.getElementById("boks").innerHTML = "Result :"+"\n" +"Gold: " + gold + ", Red: " + red + ", Pink: " + pink + ", Purple: " + purple + ", Blue: " + blue;
+
+    }
+</script>
+    
+</body>
+</html>
