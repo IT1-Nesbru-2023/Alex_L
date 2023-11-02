@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <link rel="stylesheet" href="Calculator.css">
+
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    background: #e3f9ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.calculator{
+    background: #3a4452;
+    padding: 20px;
+    border-radius: 10px;
+}
+.calculator form input{
+    border: 0;
+    outline: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    border-color: white;
+    background-color: #3a4452;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    margin: 10px;
+}
+
+form .display{
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+form .display input{
+    text-align: right;
+    flex: 1;
+    font-size: 45px;
+    box-shadow: none;
+}
+form input.equal{
+    width: 145px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <form>
+                <div class="display">
+                    <input type="text" name="display" id="screen" disabled>
+                </div>
+                <div>
+                    <input type="button" value="AC" onclick="AC()">
+                    <input type="button" value="DE" onclick="DC()">
+                    <input type="button" value="." onclick="dis(`.`)">
+                    <input type="button" value="/" onclick="dis(`/`)">
+                </div>
+                <div>
+                    <input type="button" value="7" onclick="dis(7)">
+                    <input type="button" value="8" onclick="dis(8)">
+                    <input type="button" value="9" onclick="dis(9)">
+                    <input type="button" value="*" onclick="dis(`*`)">
+                </div>
+                <div>
+                    <input type="button" value="4" onclick="dis(4)">
+                    <input type="button" value="5" onclick="dis(5)">
+                    <input type="button" value="6" onclick="dis(6)">
+                    <input type="button" value="-" onclick="dis(`-`)">
+                </div>
+                <div>
+                    <input type="button" value="1" onclick="dis(1)">
+                    <input type="button" value="2" onclick="dis(2)">
+                    <input type="button" value="3" onclick="dis(3)">
+                    <input type="button" value="+" onclick="dis(`+`)">
+                </div>
+                <div>
+                    <div>
+                        <input type="button" value="0" onclick="dis(0)">
+                        <input type="button" value="=" onclick="solve()">
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <script>
+        var prev_num = 1 
+        function dis(x){
+            document.getElementById("screen").value += x;
+            prev_num = x
+        }
+
+        function solve(){
+            let boom = document.getElementById("screen").value
+            let ye = eval(boom);
+            document.getElementById("screen").value=ye
+        }
+        function AC(){
+            document.getElementById("screen").value="";
+        }
+        function DC(){
+           boom = document.getElementById("screen").value
+           boom = boom.slice(0, -1)
+           document.getElementById("screen").value=boom
+        }
+
+    </script>
+</body>
+</html>
