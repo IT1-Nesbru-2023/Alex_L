@@ -91,6 +91,7 @@ form input.equal{
                     <div>
                         <input type="button" value="0" onclick="dis(0)">
                         <input type="button" value="=" onclick="solve()">
+                        <input type="button" value="≈" onclick="spin()">
                     </div>
                 </div>
                 
@@ -116,6 +117,11 @@ form input.equal{
            boom = document.getElementById("screen").value
            boom = boom.slice(0, -1)
            document.getElementById("screen").value=boom
+        }
+        function spin(){
+            let kys = document.getElementById("screen").value
+            kys = Math.round(kys)
+            document.getElementById("screen").value=kys
         }
 
     </script>
