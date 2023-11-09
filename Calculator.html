@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator</title>
-
     <style>
         *{
     margin: 0;
@@ -54,7 +53,9 @@ form .display input{
 form input.equal{
     width: 145px;
 }
-    </style>
+
+</style>
+
 </head>
 <body>
     <div class="container">
@@ -95,40 +96,37 @@ form input.equal{
                         <input type="button" value="=" onclick="solve()">
                     </div>
                 </div>
+                
             </form>
         </div>
     </div>
     <script>
-        var prev_num = 1 
         function dis(x){
             document.getElementById("screen").value += x;
-            prev_num = x
         }
-
         function solve(){
-            let boom = document.getElementById("screen").value
-            let ye = eval(boom);
+            let k = document.getElementById("screen").value
+            let ye = eval(k);
             document.getElementById("screen").value=ye
         }
         function AC(){
             document.getElementById("screen").value="";
         }
         function DC(){
-           boom = document.getElementById("screen").value
-           boom = boom.slice(0, -1)
-           document.getElementById("screen").value=boom
+           k = document.getElementById("screen").value
+           k = k.slice(0, -1)
+           document.getElementById("screen").value=k
         }
         function spin(){
-            let kys = document.getElementById("screen").value
-            kys = Math.round(kys)
-            document.getElementById("screen").value=kys
+            let K = document.getElementById("screen").value
+            K = Math.round(K)
+            document.getElementById("screen").value=K
         }
         function sqr(){
-            let kys = document.getElementById("screen").value
-            kys = Math.sqrt(kys)
-            document.getElementById("screen").value=kys
+            let K = document.getElementById("screen").value
+            K = Math.sqrt(K)
+            document.getElementById("screen").value=K
         }
-
     </script>
 </body>
 </html>
