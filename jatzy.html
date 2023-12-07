@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatzy</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .spill_brett {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .spill_tall {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .tall {
+            width: 50px;
+            height: 50px;
+            margin: 0 5px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            transition: background-color 0.5s;
+        }
+
+        #spin {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        #scoreTable {
+            border-collapse: collapse;
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #tutorial_box {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #hide-button {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #scoreTable th,
+        #scoreTable td {
+            border: 2px solid #333;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #scoreTable th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        #scoreTable td {
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        #scoreTable td:hover {
+            background-color: #f2f2f2;
+        }
+
+        #scoreTable td.set.player-1 {
+            background-color: #cce5ff;
+
+        }
+
+        #scoreTable td.set.player-2 {
+            background-color: #ffb6b6;
+        }
+
+        #scoreTable td:not(.set) {
+            background-color: #fff;
+        }
+
+        .tall.roll-animation {
+            animation: rollDice 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes rollDice {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(1.4) rotate(360deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+
+        .end-message {
+            text-align: center;
+            padding: 20px;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body onload="kast()">
+    <h1>Yatzy</h1>
+    <div id="tutorial_box">
+        <h2>Velkommen til Yatzy!</h2>
+        <p>Dette er en enkel implementering av Yatzy-spillet. Klikk på terningene for å velge hvilke du vil kaste på
+            nytt. Du har tre kast per runde.</p>
+        <p>Etter hvert kast kan du velge en kombinasjon i poengtabellen. Målet er å få så høy poengsum som mulig!</p>
+        <button id="hide-button" onclick="fjern_tutorial()">Skjul</button>
+    </div>
+    <div class="spill_brett">
+        <div class="spill_tall">
+            <div id="1" class="tall" onclick="farge_bytt(1)"></div>
+            <div id="2" class="tall" onclick="farge_bytt(2)"></div>
+            <div id="3" class="tall" onclick="farge_bytt(3)"></div>
+            <div id="4" class="tall" onclick="farge_bytt(4)"></div>
+            <div id="5" class="tall" onclick="farge_bytt(5)"></div>
+        </div>
+        <div>
+            <button id="spin" onclick="kast()">Kast</button>
+        </div>
+    </div>
+
+    <table id="scoreTable">
+        <colgroup>
+            <col span="1">
+            <col span="1">
+            <col span="1">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td><b>Kast</b></td>
+                <td><b>Spiller 1</b></td>
+                <td><b>Spiller 2</b></td>
+            </tr>
+            <tr>
+                <td>Enere</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Toere</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Treere</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Firere</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Femmere</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Seksere</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Sum</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Bonus</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Tre like</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Fire like</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Fullt hus</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Liten straight</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Stor straight</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Sjanse</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Yatzy</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Poeng sum</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Deklarasjon av globale variabler for terningene, aktivt status, kombinasjoner, etc.
+        let terning = [0, 0, 0, 0, 0];
+        let active = [1, 1, 1, 1, 1];
+        let kombo = [];
+        let re_roll_max = 0;
+        let spiller = 1;
+
+
+        // Funksjon for å endre farge på terningene når de klikkes
+        function farge_bytt(nummer) {
+            let dice = document.getElementById(nummer);
+            if (active[nummer - 1] == 1) {
+                active[nummer - 1] = 0;
+                dice.style.backgroundColor = "";
+            } else {
+                dice.style.backgroundColor = random_farge();
+                active[nummer - 1] = 1;
+            }
+        }
+
+        // Funksjon for å generere en tilfeldig farge (brukt i farge_bytt)
+        function random_farge() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Funksjon for å rulle en terning og oppdatere verdien og fargen
+        function dice_roll(nummer) {
+            terning[nummer - 1] = Math.ceil(Math.random() * 6);
+            let dice = document.getElementById(nummer);
+            dice.innerHTML = terning[nummer - 1];
+            dice.style.backgroundColor = "";
+        }
+
+        // Funksjon for å utføre et kast av terningene
+        function kast() {
+            if (re_roll_max == 3) {
+                return alert("Maks kast er 3");
+            } else {
+                re_roll_max++;
+                for (let i = 1; i <= 5; i++) {
+                    if (active[i - 1] == 1) {
+                        dice_roll(i);
+                        dice_animation(i)
+                        active[i - 1] = 0;
+                    }
+                }
+            }
+            // Oppdaterer spillbrettet etter hvert kast
+            spill_brett_test(spiller);
+        }
+
+        // Funksjon for å teste om det er like tall i terningene
+        function like_tall_tester(like_tall, count) {
+            for (let i = 1; i <= 6; i++) {
+                let foundCount = 0;
+                for (let index = 0; index < terning.length; index++) {
+                    if (terning[index] === i) {
+                        foundCount++;
+                    }
+                }
+                if (foundCount === count) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Funksjon for å telle antall av samme tall
+        function samme_tall(tall) {
+            let samme_tall = 0
+            for (let i = 0; i < terning.length; i++) {
+                if (tall == terning[i])
+                    samme_tall++
+            }
+            return samme_tall * tall
+        }
+
+        // Funksjon for å beregne summen av terningene
+        function terning_sum() {
+            let sum = 0
+            for (let i = 0; i < 5; i++) {
+                sum += terning[i];
+            }
+            return sum
+        }
+
+        // Funksjon for å oppdatere spillbrettet med poeng
+        function spill_brett_test(spiller) {
+            let sum = 0
+            for (let i = 1; i <= 6; i++) {
+                const cellValue = samme_tall(i) !== 0 ? samme_tall(i) : 0;
+                if (!clicked_rows[spiller].includes(i)) {
+                    document.getElementById("scoreTable").rows[i].cells[spiller].innerHTML = cellValue;
+                }
+                sum += parseInt(document.getElementById("scoreTable").rows[i].cells[spiller].innerHTML) || 0;
+            }
+            // Funksjon til å gi farger til alle som ikke har blitt trykket
+            for (let i = 1; i < scoreTable.rows.length - 1; i++) {
+                for (let j = 1; j <= 2; j++) {
+                    const cell = document.getElementById("scoreTable").rows[i].cells[j];
+
+                    if (!clicked_rows[j].includes(i)) {
+                        const cellValue = parseInt(cell.innerHTML) || 0;
+                        cell.innerHTML = cellValue;
+                        cell.classList.add("set", `player-${j}`);
+                    } else {
+                        cell.classList.remove("set", "player-1", "player-2");
+                    }
+                }
+            }
+            document.getElementById("scoreTable").rows[7].cells[spiller].innerHTML = sum
+            const bonus = sum == 63 ? 35 : 0;
+            document.getElementById("scoreTable").rows[8].cells[spiller].innerHTML = bonus;
+
+            const like_3 = like_tall_tester(3, 3) ? terning_sum() : 0;
+            if (!clicked_rows[spiller].includes(9)) {
+                document.getElementById("scoreTable").rows[9].cells[spiller].innerHTML = like_3;
+            }
+
+            const like_4 = like_tall_tester(4, 4) ? terning_sum() : 0;
+            if (!clicked_rows[spiller].includes(10)) {
+                document.getElementById("scoreTable").rows[10].cells[spiller].innerHTML = like_4;
+            }
+
+            const full_hus = like_tall_tester(2, 2) && like_tall_tester(3, 3) ? 35 : 0;
+            if (!clicked_rows[spiller].includes(11)) {
+                document.getElementById("scoreTable").rows[11].cells[spiller].innerHTML = full_hus;
+            }
+
+            const smallStraight = liten_straight() ? 30 : 0;
+            if (!clicked_rows[spiller].includes(12)) {
+                document.getElementById("scoreTable").rows[12].cells[spiller].innerHTML = smallStraight;
+            }
+
+            const largeStraight = Stor_straight() ? 40 : 0;
+            if (!clicked_rows[spiller].includes(13)) {
+                document.getElementById("scoreTable").rows[13].cells[spiller].innerHTML = largeStraight
+            }
+
+            const chance = terning_sum()
+            if (!clicked_rows[spiller].includes(14)) {
+                document.getElementById("scoreTable").rows[14].cells[spiller].innerHTML = chance
+            }
+
+            const Yatzy = like_tall_tester(5, 5) ? 50 : 0
+            if (!clicked_rows[spiller].includes(15)) {
+                document.getElementById("scoreTable").rows[15].cells[spiller].innerHTML = Yatzy
+            }
+        }
+
+        // Dictionary for å lagre valgte rader for hver spiller
+        let clicked_rows = {
+            1: [],
+            2: []
+        }
+
+        // Funksjon for å tilbakestille poengtabellen
+        function reset_tabell() {
+            let scoreTable = document.getElementById("scoreTable");
+            for (let i = 1; i < scoreTable.rows.length - 1; i++) {
+                for (let j = 1; j <= 2; j++) {
+                    const cellValue = clicked_rows[j].includes(i);
+                    if (i === 7 || i === 8) {
+                        console.log("false")
+                    }
+                    else if (!cellValue) {
+                        scoreTable.rows[i].cells[j].innerHTML = "";
+                    }
+                }
+            }
+        }
+
+        // Håndterer klikk på poengceller
+        function click_håndterer(row, col) {
+            if (col == spiller) {
+                if (row === 7 || row === 8) {
+                    alert("Kan ikke endre sum eller bonus");
+                }
+                else if (clicked_rows[col].includes(row)) {
+                    alert("kan ikke velge samme tall")
+                }
+                else {
+                    clicked_rows[col].push(row);
+                    document.getElementById("scoreTable").rows[16].cells[col].innerHTML = Poeng_test(spiller)
+                    reset_tabell()
+                    swap_player()
+                }
+            }
+        }
+
+        // Bytter spiller
+        function swap_player() {
+            if (spiller == 1) {
+                spiller = 2;
+                re_roll_max = 0;
+                active = [1, 1, 1, 1, 1];
+                kast();
+            } else {
+                spiller = 1;
+                re_roll_max = 0;
+                active = [1, 1, 1, 1, 1];
+                kast();
+            }
+        }
+
+        // Beregner total poengsum for en spiller
+        function Poeng_test(spiller) {
+            let totalScore = 0;
+            const clicked_rowsForPlayer = clicked_rows[spiller];
+
+            for (let i = 0; i < clicked_rowsForPlayer.length; i++) {
+                const row = clicked_rowsForPlayer[i];
+                const cellValue = parseInt(document.getElementById("scoreTable").rows[row].cells[spiller].innerHTML) || 0;
+                totalScore += cellValue;
+            }
+
+            //tester viss spilet er ferdig 
+            if (clicked_rowsForPlayer.length === 13 && !slutt_spill_aktivert) {
+                const otherPlayer = spiller === 1 ? 2 : 1;
+                const otherPlayerScore = Poeng_test(otherPlayer);
+
+                // finner spiller med mest poeng
+                const vinner = totalScore > otherPlayerScore ? spiller : otherPlayer;
+                slutt_spill_aktivert = true;
+                slutt_spill(vinner);
+            }
+
+            return totalScore;
+        }
+
+        // Legger til event listener for klikk på poengceller ved lasting av siden
+        document.addEventListener("DOMContentLoaded", function () {
+            let scoreTable = document.getElementById("scoreTable");
+            for (let i = 1; i < scoreTable.rows.length; i++) {
+                for (let j = 1; j < scoreTable.rows[i].cells.length; j++) {
+                    scoreTable.rows[i].cells[j].addEventListener("click", function () {
+                        click_håndterer(i, j);
+                    });
+                }
+            }
+        });
+
+        // Funksjon for å sjekke om det er en liten straight i terningene
+        function liten_straight() {
+            const uniqueValues = Array.from(new Set(terning));
+            return (
+                (uniqueValues.includes(1) && uniqueValues.includes(2) && uniqueValues.includes(3) && uniqueValues.includes(4)) ||
+                (uniqueValues.includes(2) && uniqueValues.includes(3) && uniqueValues.includes(4) && uniqueValues.includes(5)) ||
+                (uniqueValues.includes(3) && uniqueValues.includes(4) && uniqueValues.includes(5) && uniqueValues.includes(6))
+            );
+        }
+
+        // Funksjon for å sjekke om det er en stor straight i terningene
+        function Stor_straight() {
+            const uniqueValues = Array.from(new Set(terning));
+            return (
+                (uniqueValues.includes(1) && uniqueValues.includes(2) && uniqueValues.includes(3) && uniqueValues.includes(4) && uniqueValues.includes(5)) ||
+                (uniqueValues.includes(2) && uniqueValues.includes(3) && uniqueValues.includes(4) && uniqueValues.includes(5) && uniqueValues.includes(6))
+            );
+        }
+
+        function fjern_tutorial() {
+            var tutorialBox = document.getElementById('tutorial_box');
+            tutorialBox.style.display = 'none';
+        }
+        //her er kaller jeg på terning til å spille animationen
+        function dice_animation(nummer) {
+
+            const dice = document.getElementById(nummer);
+            const rollClass = "roll-animation";
+
+            dice.classList.remove(rollClass);
+
+            void dice.offsetWidth;
+
+            dice.classList.add(rollClass);
+
+            setTimeout(() => {
+                dice.style.backgroundColor = "";
+            }, 800);
+        }
+
+        let slutt_spill_aktivert = false;
+        // Funksjon for å håndtere slutten av spillet
+        function slutt_spill(vinner) {
+            const endMessage = document.createElement('div');
+            endMessage.innerHTML = `<h2>Gratulerer, Spiller ${vinner} vant!</h2>`;
+            endMessage.classList.add('end-message');
+            document.body.appendChild(endMessage);
+        }
+    </script>
+</body>
+
+
+</html>
