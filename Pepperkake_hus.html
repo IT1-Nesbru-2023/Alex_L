@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pepperkakehus</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image:url("https://media.istockphoto.com/id/1288631390/vector/christmas-red-seamless-pattern.jpg?s=612x612&w=0&k=20&c=AdfsXD2UhrdzIYfWcN_a-_5OjJYpShKtqnCEgd2etfw=");
+            background-size: 50%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1{
+            color: #ffffff;
+        }
+        img{
+            border-radius: 50px;
+        }
+
+
+        .slider{
+            -webkit-appearance: none;
+            width: 75vh;
+            background: #ffffff;
+            border-radius: 30px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #f07167;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pepperkakehus</h1>
+    <div class="img boks">
+        <div class="img">
+            <img id="img_blide" width="300px" src="https://helull.github.io/bilder/pepperkakehus/hus1.jpg" alt="">
+        </div>
+    </div>
+    <div class="slider_boks">
+        <input type="range" min="1" max="15" value="7" id="slider" class="slider">
+    </div>
+
+    <script>
+        const slider = document.getElementById("slider")
+        var img_blide = document.getElementById("img_blide")
+        var Hus_num = document.getElementById("slider").value
+        const blide_navn_del_1 = "https://helull.github.io/bilder/pepperkakehus/hus"
+
+        slider.oninput=uppdate_blide
+
+        function uppdate_blide() {
+            Hus_num = document.getElementById("slider").value
+            var blide_navn = blide_navn_del_1 + Hus_num + ".jpg"
+            img_blide.src = blide_navn
+        }
+
+    </script>
+</body>
+
+</html>
