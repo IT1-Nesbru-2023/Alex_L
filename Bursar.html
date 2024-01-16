@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bursar </title>
+
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .spill_brett {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .spill_tall {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .tall {
+            width: 50px;
+            height: 50px;
+            margin: 0 5px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            transition: background-color 0.5s;
+        }
+
+        #spin {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        #scoreTable {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #scoreTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #scoreTable b {
+            font-weight: bold;
+        }
+    </style>
+
+<link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1804/1804046.png">
+</head>
+
+<body onload="kast()">
+    <div class="spill_brett">
+        <div class="spill_tall">
+            <div id="1" class="tall"></div>
+            <div id="2" class="tall"></div>
+            <div id="3" class="tall"></div>
+        </div>
+    </div>
+
+    <table id="scoreTable">
+        <colgroup>
+            <col span="1">
+            <col span="1">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td onclick="kalk(3)"><b>3</b></td>
+                <td id="4"><b></b></td>
+            </tr>
+            <tr>
+                <td onclick="kalk(4)"><b>4</b></td>
+                <td id="5"><b></b></td>
+            </tr>
+            <tr>
+                <td onclick="kalk(5)"><b>5</b></td>
+                <td id="6"><b></b></td>
+            </tr>
+            <tr>
+                <td onclick="kalk(6)"><b>6</b></td>
+                <td id="7"><b></b></td>
+            </tr>
+            <tr>
+                <td onclick="kalk(7)"><b>7</b></td>
+                <td id="8"><b></b></td>
+            </tr>
+            <tr>
+                <td onclick="kalk(8)"><b>8</b></td>
+                <td id="9"><b></b></td>
+            </tr>
+            <tr>
+                <td><b>Sum</b></td>
+                <td id="sum"><b></b></td>
+            </tr>
+            <script src="https://it1-nesbru-2023.github.io/suhaybfc/regnUt.js"></script>
+            <script src="https://it1-nesbru-2023.github.io/JanCi/summerTall.js"></script>
+
+            <script>
+
+                let terning = [0, 0, 0]
+                let aktivt = false
+                let tall_liste = []
+                let used_multi = [0, 0, 0, 0, 0, 0]
+
+                function kast() {
+                    if (aktivt == true) {
+                        return alert("Aktiv kast ");
+                    } else {
+                        aktivt = true
+                        for (let i = 1; i <= 3; i++) {
+                            dice_roll(i);
+                        }
+                    }
+                }
+
+                function dice_roll(nummer) {
+                    terning[nummer - 1] = Math.ceil(Math.random() * 6);
+                    let dice = document.getElementById(nummer);
+                    dice.innerHTML = terning[nummer - 1];
+                }
+
+                function kalk(num) {
+                    if (used_multi[num - 3] == 0) {
+                        let tall = regnUt(num, terning[0], terning[1], terning[2])
+                        if (tall === false) {
+                            alert("false ")
+                        }
+                        else {
+                            used_multi[num - 3] = 1
+                            tall_liste.push(Number(tall))
+                            document.getElementById(num + 1).innerHTML = tall
+
+                            if (tall_liste.length == 6) {
+                                document.getElementById("sum").innerHTML = summerTall(tall_liste)
+                            }
+                            aktivt = false
+                            kast()
+                        }
+                    }
+                    else {
+                        alert("brukt multi")
+                    }
+                }
+                /*
+                function summerTall(tall1) {
+                    if (tall1[0] > 0 && tall1[1] > 0 && tall1[2] > 0 && tall1[3] > 0 && tall1[4] > 0 && tall1[5] > 0) {
+                        return tall1[0] + tall1[1] + tall1[2] + tall1[3] + tall1[4] + tall1[5];
+                    }
+                    else {
+                        return false;
+                    };
+                };
+                */
+            </script>
+
+</body>
+
+</html>
