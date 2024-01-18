@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.spill-brett-kontainer {
+    display: inline-block;
+    margin-bottom: 20px;
+    border: 2px solid #3498db; 
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+.spill-brett-elementer {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 5px;
+}
+
+.spill-brett-elementer div {
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.slutt-tekst {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.restart-knapp {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.restart-knapp:hover {
+    background-color: #27ae60;
+}
+
+h1 {
+    font-size: 36px;
+    color: #333; 
+    text-align: center;
+    margin-bottom: 20px; 
+}
+
+    </style>
+</head>
+<body>
+    <h1>Tic tac toe</h1>
+    <div class="spill-brett-kontainer">
+        <div class="spill-brett-elementer">
+            <div onclick="brett(1)" id="1"></div>
+            <div onclick="brett(2)" id="2"></div>
+            <div onclick="brett(3)" id="3"></div>
+            <div onclick="brett(4)" id="4"></div>
+            <div onclick="brett(5)" id="5"></div>
+            <div onclick="brett(6)" id="6"></div>
+            <div onclick="brett(7)" id="7"></div>
+            <div onclick="brett(8)" id="8"></div>
+            <div onclick="brett(9)" id="9"></div>
+        </div>
+    </div>
+    <div class="slutt-tekst">
+        <div id="slutt_tekst"></div>
+    </div>
+    <div>
+        <button class="restart-knapp" type="button" onclick="reset()">Start på nytt</button>
+    </div>
+
+    <script>
+
+const spiller_1 = "x"
+const spiller_2 = "o"
+const w_combo = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7]
+]
+
+let spiller_tall_1 = []
+let spiller_tall_2 = []
+let aktiv_spiller = 1
+
+function winner_test(array) {
+    for (let i = 0; i < w_combo.length; i++) {
+        const [a, b, c] = w_combo[i]
+        
+        if (array.includes(a) && array.includes(b) && array.includes(c)) {
+            return true
+        }
+    }
+    return false
+}
+
+function spiller_bytte() {
+    aktiv_spiller = (aktiv_spiller === 1) ? 2 : 1
+}
+
+function brett(nummer) {
+    const aktiv_spiller_tall = (aktiv_spiller === 1) ? spiller_tall_1 : spiller_tall_2
+
+    if (spiller_tall_1.includes(nummer) | spiller_tall_2.includes(nummer)) {
+        alert("Dette stedet er allerede valgt. Velg et annet sted.")
+    } else {
+        aktiv_spiller_tall.push(nummer)
+
+        document.getElementById(nummer).innerHTML = (aktiv_spiller === 1) ? spiller_1 : spiller_2
+        
+        if (winner_test(aktiv_spiller_tall)=== true) {
+            document.getElementById("slutt_tekst").innerHTML = `Gratulerer! Spiller ${aktiv_spiller} vant! 🎉`
+        } else {
+            spiller_bytte()
+        }
+    }
+}
+function reset(){
+    location.reload()
+}
+    </script>
+</body>
+</html>
