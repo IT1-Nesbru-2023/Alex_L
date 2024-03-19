@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitttkort maskin</title>
+    <!-- 
+        CSS Laget av chat GPT 3.5 med litt hjelp av meg
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #endring_elementer {
+            background-color: #f2f2f2;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            gap: 10px;
+        }
+
+        #body_kort {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            width: 161.8mm;
+            height: calc(161.8mm / 1.618);
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-template-areas: "Navn_k"
+                "Kjønn_k"
+                "Stilling_k"
+                "Telefonnummer_k"
+                "Førekort_k"
+                "Fødselsdag_k"
+                "bilde_k";
+
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+        }
+
+        #style_kort {
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        #style_kort div {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        input[type="color"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #bilde_k img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #body_kort div {
+            margin-bottom: 10px;
+        }
+
+        #Navn_k {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #Kjønn_k,
+        #Stilling_k,
+        #Telefonnummer_k,
+        #Førekort_k,
+        #Fødselsdag_k {
+            font-size: 14px;
+        }
+
+        #bilde_k {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        /* Business Card Styling */
+
+        #body_kort {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #body_kort div {
+            text-align: center;
+            padding: 5px 10px;
+        }
+
+        #body_kort div:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
+
+        #body_kort div:last-child {
+            border: none;
+        }
+
+        #bilde_k {
+            height: 100px;
+            width: 100px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        #bilde_k img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #style_kort h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        #style_kort input[type="color"],
+        #style_kort select {
+            margin-bottom: 5px;
+            width: calc(100% - 12px);
+            margin-left: 6px;
+        }
+
+        /* Adjusting the width of the color input */
+        #style_kort input[type="color"] {
+            width: 30%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="endring_elementer">
+        <div>
+            <h1>Visitttkort maskin</h1>
+        </div>
+        <div>
+            <h2>Info</h2>
+        </div>
+        <div>
+            <p>Navn: <input type="text" id="Navn"></p>
+        </div>
+        <div>
+            <p>Kjønn:
+                <select id="Kjønn">
+                    <option hidden disabled selected value> -- Velg et alternativ -- </option>
+                    <option value="Mann">Mann</option>
+                    <option value="Kvinne">Kvinne</option>
+                </select>
+            </p>
+        </div>
+        <div>
+            <p>Stilling: <input type="text" id="Stilling"></p>
+        </div>
+        <div>
+            <p>Telefonnummer: <input type="number" id="Telefonnummer"></p>
+        </div>
+        <div>
+            <p>Førekort:
+                <select id="Førekort">
+                    <option hidden disabled selected value> -- Velg et alternativ -- </option>
+                    <option value="Nei">Nei</option>
+                    <option value="Ja">Ja</option>
+                </select>
+            </p>
+        </div>
+        <div>
+            <p>Fødselsdag: <input type="date" id="Fødselsdag"></p>
+        </div>
+        <div>
+            <p>Person bilde: <input type="file" id="bilde"></p>
+        </div>
+        <div id="style_kort">
+            <div>
+                <h2>Utsene av kort</h2>
+            </div>
+            <div>
+                <p>Kort farge: <input type="color" id="kort_farge" value="#ffffff"></p>
+            </div>
+            <div>
+                <p>Type ramme:
+                    <select id="ramme">
+                        <option hidden disabled selected value> -- Velg et alternativ -- </option>
+                        <option value="solid">solid</option>
+                        <option value="dotted">dotted</option>
+                        <option value="dashed">dashed</option>
+                        <option value="none">none</option>
+                    </select>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="body_kort">
+        <div id="Navn_k">Navn</div>
+        <div id="Kjønn_k">Kjønn: </div>
+        <div id="Stilling_k">Stilling:</div>
+        <div id="Telefonnummer_k">Telefonnummer:</div>
+        <div id="Førekort_k">Førekort:</div>
+        <div id="Fødselsdag_k">Fødselsdag:</div>
+        <div id="bilde_k"><img src="" alt="bilde" width="100px"></div>
+    </div>
+
+
+
+    <script>
+        /// Definerer alle elementene i korte 
+        const kort = document.getElementById("body_kort")
+        const kort_navn = document.getElementById("Navn_k")
+        const kort_kjønn = document.getElementById("Kjønn_k")
+        const kort_stilling = document.getElementById("Stilling_k")
+        const kort_telefon = document.getElementById("Telefonnummer_k")
+        const kort_førekort = document.getElementById("Førekort_k")
+        const kort_fødselsdag = document.getElementById("Fødselsdag_k")
+        const kort_bilde = document.getElementById("bilde_k")
+
+
+        /// Definerer alle inputs ogvs jeg trenger å bruke
+        const svar_navn = document.getElementById("Navn")
+        const svar_kjønn = document.getElementById("Kjønn")
+        const svar_stilling = document.getElementById("Stilling")
+        const svar_telefonnummer = document.getElementById("Telefonnummer")
+        const svar_førekort = document.getElementById("Førekort")
+        const svar_fødselsdag = document.getElementById("Fødselsdag")
+        const svar_bilde = document.getElementById("bilde")
+        const svar_kort_farge = document.getElementById("kort_farge")
+        const svar_ramme = document.getElementById("ramme")
+
+        // legger til event listeners til vær input og sier at den skal endre riktige elemente med det som ble endret 
+        svar_navn.addEventListener("input", (event) => {
+            kort_navn.textContent = "Navn: " + event.target.value
+        })
+
+        svar_kjønn.addEventListener("change", (event) => {
+            kort_kjønn.textContent = "Kjønn: " + event.target.value
+        })
+
+        svar_stilling.addEventListener("input", (event) => {
+            kort_stilling.textContent = "Stilling: " + event.target.value
+        })
+
+        svar_telefonnummer.addEventListener("input", (event) => {
+            kort_telefon.textContent = "Telefonnummer: " + event.target.value
+        })
+
+        svar_førekort.addEventListener("change", (event) => {
+            kort_førekort.textContent = "Førekort: " + event.target.value
+        })
+
+        svar_fødselsdag.addEventListener("change", (event) => {
+            kort_fødselsdag.textContent = "Fødselsdag: " + event.target.value
+        })
+
+        //bilde uppdater
+        svar_bilde.addEventListener("change", (event) => {
+            //skriver får en vriabel som er filen som ble lagt till
+            const file = event.target.files[0];
+            //sier at reader er en funtion som leser fra filen
+            const reader = new FileReader();
+            // Re difinerer bilde delen av korte slik at src blir opptatert 
+            reader.onload = function () {
+                kort_bilde.innerHTML = "<img src='" + reader.result + "' alt='bilde' width='100px'>";
+            }
+            //kaller på funtionen som putter inn src som en link slik at den fårstår den 
+            reader.readAsDataURL(file);
+        })
+
+        svar_kort_farge.addEventListener("input", (event) => {
+            kort.style.backgroundColor = event.target.value
+        })
+
+        svar_ramme.addEventListener("change", (event) => {
+            kort.style.border = event.target.value
+        })
+
+
+    </script>
+</body>
+
+</html>
