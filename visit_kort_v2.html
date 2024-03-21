@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitttkort maskin</title>
+    <!-- 
+        CSS Laget av chat GPT 3.5 med litt hjelp av meg
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #body_kort {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            width: 161.8mm;
+            height: calc(161.8mm / 1.618);
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-template-areas: "Navn_k"
+                "Kjønn_k"
+                "Stilling_k"
+                "Telefonnummer_k"
+                "Førekort_k"
+                "Fødselsdag_k"
+                "bilde_k";
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+        }
+
+        #bilde_k img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #body_kort div {
+            margin-bottom: 10px;
+        }
+
+        #Navn_k {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #Kjønn_k,
+        #Stilling_k,
+        #Telefonnummer_k,
+        #Førekort_k,
+        #Fødselsdag_k {
+            font-size: 14px;
+        }
+
+        #bilde_k {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        /* Business Card Styling */
+
+        #body_kort {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #body_kort div {
+            text-align: center;
+            padding: 5px 10px;
+        }
+
+        #body_kort div:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
+
+        #body_kort div:last-child {
+            border: none;
+        }
+
+        #bilde_k {
+            height: 100px;
+            width: 100px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        #bilde_k img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #style_kort h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        #style_kort input[type="color"],
+        #style_kort select {
+            margin-bottom: 5px;
+            width: calc(100% - 12px);
+            margin-left: 6px;
+        }
+
+        /* Adjusting the width of the color input */
+        #style_kort input[type="color"] {
+            width: 30%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="endring_elementer">
+        <div>
+            <h1>Visitttkort maskin</h1>
+        </div>
+        <div>
+            <p> Velg navn
+                <select id="navn_sel">
+                    <option hidden disabled selected value> -- Velg et alternativ -- </option>
+                </select>
+            </p>
+
+        </div>
+
+        <div id="body_kort">
+            <div id="Navn_k">TEST</div>
+            <div id="Kjønn_k">Kjønn: </div>
+            <div id="Stilling_k">Stilling:</div>
+            <div id="Telefonnummer_k">Telefonnummer:</div>
+            <div id="Førekort_k">Førekort:</div>
+            <div id="Fødselsdag_k">Fødselsdag:</div>
+            <div id="bilde_k"><img src="" alt="bilde" width="100px"></div>
+        </div>
+        <script src="visit_kort_data_v2.js"></script>
+        <script>
+            /// Definerer alle elementene i korte 
+            const kort = document.getElementById("body_kort")
+            const kort_navn = document.getElementById("Navn_k")
+            const kort_kjønn = document.getElementById("Kjønn_k")
+            const kort_stilling = document.getElementById("Stilling_k")
+            const kort_telefon = document.getElementById("Telefonnummer_k")
+            const kort_førekort = document.getElementById("Førekort_k")
+            const kort_fødselsdag = document.getElementById("Fødselsdag_k")
+            const kort_bilde = document.getElementById("bilde_k")
+
+            /// Definerer alle inputs ogvs jeg trenger å bruke
+            const navn_pers = document.getElementById("navn_sel")
+          
+
+
+
+            for (element in visittKort.kortArray) {
+                navn_pers.innerHTML += "<option>" + visittKort.kortArray[element].navn + "</option>"
+            }
+
+            navn_pers.addEventListener("change", (event) => {
+                const navn_pers = event.target.value
+                const pers_num = visittKort.kortArray.findIndex(person => person.navn === navn_pers)
+                const lat = visittKort.kortArray[pers_num]
+                kort_navn.textContent = lat.navn
+                kort_kjønn.textContent =  lat.kjønn
+                kort_telefon.textContent =  lat.tlf
+                kort_stilling.textContent =  lat.stilling
+                kort_førekort.textContent = "Førekort: "+lat.førekort
+                kort_fødselsdag.textContent = "Fødselsdag: "+lat.fødselsdag
+                kort.style.backgroundColor  = lat.farge
+                kort_bilde.innerHTML ="<img src='"+lat.bilde + "'alt='bilde' width='100px'>"
+                kort.style.border = lat.border
+            })
+
+
+        </script>
+</body>
+
+</html>
