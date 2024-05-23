@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="src/output.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex justify-center items-center h-screen">
+        <div class="w-full max-w-md">
+            <div class="bg-white shadow-md rounded p-4">
+                <div class="text-center text-3xl mb-4">Chat Box</div>
+                <div id="Meldinger" class="h-64 overflow-auto mb-4 border border-gray-300 rounded-lg p-4"></div>
+                <div class="flex">
+                    <input type="text" id="userText" placeholder="Type your message"
+                        class="flex-grow border border-gray-300 rounded-l-lg p-2 focus:outline-none">
+                    <button id="submitButton"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-r-lg focus:outline-none">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="module">
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import {
+            getFirestore, query, collection, getDoc, getDocs, doc, addDoc, updateDoc, deleteDoc, onSnapshot,
+            orderBy, where, limit,
+        } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyB54SLY4BW8Gcw3M6uUunQmChFzWK7l5NM",
+            authDomain: "it1-chat-prosjekt.firebaseapp.com",
+            databaseURL: "https://it1-chat-prosjekt-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "it1-chat-prosjekt",
+            storageBucket: "it1-chat-prosjekt.appspot.com",
+            messagingSenderId: "586414882988",
+            appId: "1:586414882988:web:295c233bfff3a4bb429f09",
+            measurementId: "G-1JPWD417F8"
+        };
+
+        const bruker_melding = document.getElementById("Meldinger")
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        console.log("Det funket!");
+        const db = getFirestore(app);
+
+        const q = query(collection(db, "messages"),orderBy("user_tid"));
+
+        document.getElementById("submitButton").addEventListener("click", async () => {
+            const userText = document.getElementById("userText").value;
+            const d = new Date();
+            let tid = d.getTime();
+            const docRef = await addDoc(collection(db, "messages"), {
+                user_text: userText,
+                user_tid: tid
+            });
+
+            console.log("Document written with ID: ", docRef.id);
+        });
+
+        onSnapshot(q, (user_text) => {
+
+            bruker_melding.innerHTML = "";
+
+            let bruker_text = user_text
+            bruker_text.forEach(skriv_text)
+
+        });
+
+        function skriv_text(dok) {
+            bruker_melding.innerHTML += "<br><b>Melding </b>" + dok.data().user_text ;
+        };
+
+
+    </script>
+</body>
+
+</html>
