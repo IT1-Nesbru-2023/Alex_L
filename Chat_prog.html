@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="src/output.css">
 </head>
 
 <body class="bg-gray-100">
@@ -87,6 +87,11 @@
             bruker_melding.innerHTML += "<br><b>Melding </b>" + dok.data().user_text ;
         };
 
+        document.getElementById("userText").addEventListener("keydown", (event) => {
+            if (event.key === "Enter") { 
+                document.getElementById("submitButton").click();
+            }
+        });
 
     </script>
 </body>
