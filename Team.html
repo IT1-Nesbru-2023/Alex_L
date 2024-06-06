@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lagdelingsprogram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        #input_box {
+            background-color: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #team_container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px;
+        }
+        #team_container div {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #team_container p {
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <div id="input_box">
+            <h1>Lagdelingsprogram</h1>
+            <input id="input_names" type="text" placeholder="Skriv navn, separert med komma">
+            <input id="num_teams" type="number" min="2" placeholder="Antall lag">
+            <button onclick="arr_sub()">Submit</button>
+        </div>
+        <div id="team_container"></div>
+    </div>
+    
+<script>
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function arr_sub() {
+    const namesInput = document.getElementById('input_names').value;
+    const numTeams = parseInt(document.getElementById('num_teams').value);
+
+    if (!namesInput || !numTeams || numTeams < 2) {
+        alert('Vennligst skriv inn navn og antall lag (minst 2 lag).');
+        return;
+    }
+
+    const names = namesInput.split(',').map(name => name.trim());
+    const shuffledNames = shuffle(names);
+
+    const teams = Array.from({ length: numTeams }, () => []);
+    shuffledNames.forEach((name, index) => {
+        teams[index % numTeams].push(name);
+    });
+
+    const teamContainer = document.getElementById('team_container');
+    teamContainer.innerHTML = '';
+    teams.forEach((team, index) => {
+        const teamDiv = document.createElement('div');
+        teamDiv.innerHTML = `<p>Lag ${index + 1}</p><div>${team.join('<br>')}</div>`;
+        teamContainer.appendChild(teamDiv);
+    });
+}
+</script>
+    
+</body>
+</html>
